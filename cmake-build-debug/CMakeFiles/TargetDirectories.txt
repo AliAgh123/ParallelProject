@@ -1,0 +1,3 @@
+/Users/aliabdelghaffar/CS @ lau/spring24/CSC447/ParallelProject/cmake-build-debug/CMakeFiles/ParallelProject.dir
+/Users/aliabdelghaffar/CS @ lau/spring24/CSC447/ParallelProject/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/aliabdelghaffar/CS @ lau/spring24/CSC447/ParallelProject/cmake-build-debug/CMakeFiles/rebuild_cache.dir
