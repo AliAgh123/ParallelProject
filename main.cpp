@@ -1,130 +1,87 @@
-#include "bits/stdc++.h"
-
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
-int col[9][9];
-int row[9][9];
-int boxes[9][9];
+vector<vector<int>> col;
+vector<vector<int>> row;
+vector<vector<int>> boxes;
 bool wrongValue = false;
 
-bool findUnassignedLocation(vector<vector<char>> &board)
-{
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            if (board[i][j] == '.')
-                return false;
+bool findUnassignedLocation(vector<vector<char>> &board) {
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[i].size(); j++) {
+            if (board[i][j] == '.') return false;
         }
     }
     return true;
 }
 
-int boxIdentification(int i, int j)
-{
-    if (i <= 2 && j <= 2)
-    {
-        return 0;
-    }
-    else if (i <= 2 && 2 < j && j <= 5)
-    {
-        return 1;
-    }
-    else if (i <= 2 && 5 < j && j <= 8)
-    {
-        return 2;
-    }
-    else if (2 < i && i <= 5 && j <= 2)
-    {
-        return 3;
-    }
-    else if (2 < i && i <= 5 && 2 < j && j <= 5)
-    {
-        return 4;
-    }
-    else if (2 < i && i <= 5 && 5 < j && j <= 8)
-    {
-        return 5;
-    }
-    else if (5 < i && i <= 8 && j <= 2)
-    {
-        return 6;
-    }
-    else if (5 < i && i <= 8 && 2 < j && j <= 5)
-    {
-        return 7;
-    }
-    else if (5 < i && i <= 8 && 5 < j && j <= 8)
-    {
-        return 8;
-    }
-    return -1;
+int boxIdentification(int i, int j, int n) {
+    int boxSize = sqrt(n);
+    int boxRow = i / boxSize;
+    int boxCol = j / boxSize;
+    return boxRow * boxSize + boxCol;
 }
 
-void fillArrays(vector<vector<char>> &board)
-{
-    for (int i = 0; i < board.size(); i++)
-    {
-        for (int j = 0; j < board[i].size(); j++)
-        {
-            if (board[i][j] != '.')
-            {
-                row[i][board[i][j] - '1']++;
-                col[j][board[i][j] - '1']++;
-                boxes[boxIdentification(i, j)][board[i][j] - '1']++;
+void fillArrays(vector<vector<char>> &board) {
+    int n = board.size();
+    col.resize(n, vector<int>(n, 0));
+    row.resize(n, vector<int>(n, 0));
+    boxes.resize(n, vector<int>(n, 0));
+
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[i].size(); j++) {
+            if (board[i][j] != '.') {
+                int num = board[i][j] - '1';
+                row[i][num]++;
+                col[j][num]++;
+                boxes[boxIdentification(i, j, n)][num]++;
             }
         }
     }
 }
 
-bool isSafe()
-{
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            if (col[i][j] > 1 || row[i][j] > 1 || boxes[i][j] > 1)
-                return false;
+bool isValid(int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (col[i][j] > 1 || row[i][j] > 1 || boxes[i][j] > 1) return false;
         }
     }
     return true;
 }
-void solve(vector<vector<char>> &board)
-{
-    if (findUnassignedLocation(board)){
+
+void solve(vector<vector<char>> &board) {
+    if (findUnassignedLocation(board)) {
         return;
     }
 
-    if(!isSafe()){
+    if (!isValid(board.size())) {
         return;
     }
 
-    for (int y = 0; y < 9; y++)
-    {
-        for (int x = 0; x < 9; x++)
-        {
-            if (board[y][x] != '.')
-                continue;
-            for (int i = 0; i < 9; i++)
-            {
-                if (col[x][i] == 0 && row[y][i] == 0 && boxes[boxIdentification(y, x)][i] == 0)
-                {
+    for (int y = 0; y < board.size(); y++) {
+        for (int x = 0; x < board[y].size(); x++) {
+            if (board[y][x] != '.') continue;
+
+            for (int i = 0; i < board.size(); i++) {
+                if (col[x][i] == 0 && row[y][i] == 0 && boxes[boxIdentification(y, x, board.size())][i] == 0) {
                     col[x][i]++;
                     row[y][i]++;
-                    boxes[boxIdentification(y, x)][i]++;
+                    boxes[boxIdentification(y, x, board.size())][i]++;
                     board[y][x] = i + '1';
                     solve(board);
-                    if(wrongValue){
+                    if (wrongValue) {
                         col[x][i]--;
                         row[y][i]--;
-                        boxes[boxIdentification(y, x)][i]--;
+                        boxes[boxIdentification(y, x, board.size())][i]--;
                         board[y][x] = '.';
                         wrongValue = false;
                     }
-
-
                 }
-                if(i==8 && board[y][x]=='.'){
+                if (i == board.size() - 1 && board[y][x] == '.') {
                     wrongValue = true;
                     return;
                 }
@@ -133,32 +90,52 @@ void solve(vector<vector<char>> &board)
     }
 }
 
-
-void solveSudoku(vector<vector<char>>& board) {
+void solveSudoku(vector<vector<char>> &board) {
     fillArrays(board);
     solve(board);
 }
 
+void displayBoard(const vector<vector<char>> &board) {
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[i].size(); j++) {
+            cout << board[i][j] << " ";
+            if ((j + 1) % int(sqrt(board.size())) == 0 && j != board.size() - 1) cout << "| ";
+        }
+        cout << endl;
+        if ((i + 1) % int(sqrt(board.size())) == 0 && i != board.size() - 1) {
+            for (int k = 0; k < board.size() + int(sqrt(board.size())) - 1; k++) {
+                cout << "--";
+            }
+            cout << endl;
+        }
+    }
+}
+
 int main() {
-
     vector<vector<char>> board {
-            {'5','3','.','.','7','.','.','.','.'},
-            {'6','.','.','1','9','5','.','.','.'},
-            {'.','9','8','.','.','.','.','6','.'},
-            {'8','.','.','.','6','.','.','.','3'},
-            {'4','.','.','8','.','3','.','.','1'},
-            {'7','.','.','.','2','.','.','.','6'},
-            {'.','6','.','.','.','.','2','8','.'},
-            {'.','.','.','4','1','9','.','.','5'},
-            {'.','.','.','.','8','.','.','7','9'}};
+            { '3', '.', '6', '5', '.', '8', '4', '.', '.' },
+            { '5', '2', '.', '.', '.', '.', '.', '.', '.' },
+            { '.', '8', '7', '.', '.', '.', '.', '3', '1' },
+            { '.', '.', '3', '.', '1', '.', '.', '8', '.' },
+            { '9', '.', '.', '8', '6', '3', '.', '.', '5' },
+            { '.', '5', '.', '.', '9', '.', '6', '.', '.' },
+            { '1', '3', '.', '.', '.', '.', '2', '5', '.' },
+            { '.', '.', '.', '.', '.', '.', '.', '7', '4' },
+            { '.', '.', '5', '2', '.', '6', '3', '.', '.' }
+    };
 
+    cout << "Original Sudoku:" << endl;
+    displayBoard(board);
+    auto start = high_resolution_clock::now();
 
     solveSudoku(board);
-    for(auto row : board){
-        for(auto c : row){
-            cout<<c<<" ";
-        }
-        cout<<endl;
-    }
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+
+    cout << "\nSolved Sudoku:" << endl;
+    displayBoard(board);
+    cout << "\nTime taken: " << duration.count() << " milliseconds" << endl;
+
+
     return 0;
 }
