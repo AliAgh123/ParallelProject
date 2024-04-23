@@ -4,4 +4,7 @@ project(ParallelProject)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(ParallelProject main.cpp
-        bits/stdc++.h)
+        bits/stdc++.h
+        MPI.cpp
+        MPI.h
+        DLX.cpp)
