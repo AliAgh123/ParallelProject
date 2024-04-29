@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include "DLX.h"
 
 
 using namespace std;
@@ -12,8 +13,8 @@ using namespace std;
 #define MAX_K 1000
 
 //#define SIZE 25
-#define SIZE 16
-//#define SIZE 9
+//#define SIZE 16
+#define SIZE 9
 //#define SIZE 4
 
 const int UNASSIGNED = 0;
@@ -84,7 +85,7 @@ void search(int k) {
         timer2 = clock() - timer;
         int Grid[SIZE][SIZE] = { {0} };
         MapSolutionToGrid(Grid);
-//        PrintGrid(Grid);
+        PrintGrid(Grid);
         cout << "Time Elapsed: " << (float)timer2 / CLOCKS_PER_SEC << " seconds.\n\n";
 //        cin.get(); //Pause console
         timer = clock();
@@ -351,45 +352,45 @@ void SolveSudoku(vector<vector<int>> Sudoku) {
 
 
 // Function to read Sudoku puzzles from file
-vector<SudokuPuzzle> readSudokuPuzzlesFromFile(const string& filename) {
-    ifstream inFile(filename);
-    vector<SudokuPuzzle> puzzles;
-    if (!inFile.is_open()) {
-        cerr << "Error: Unable to open file." << endl;
-        return puzzles;
-    }
-    string line;
-    while (getline(inFile, line)) {
-        int i = 0;
-        SudokuPuzzle puzzle(SIZE, vector<int>(SIZE, UNASSIGNED));
-        while(i < SIZE){
-            stringstream ss(line);
-            for (int j = 0; j < SIZE; ++j) {
-                ss >> puzzle[i][j];
-            }
-            getline(inFile, line);
-            i++;
-        }
-//        for(int i=0; i<SIZE; i++){
-//            for(int j=0; j<SIZE; j++){
-//                cout<<puzzle[i][j]<<" ";
-//            }cout<<endl;
+//vector<SudokuPuzzle> readSudokuPuzzlesFromFile(const string& filename) {
+//    ifstream inFile(filename);
+//    vector<SudokuPuzzle> puzzles;
+//    if (!inFile.is_open()) {
+//        cerr << "Error: Unable to open file." << endl;
+//        return puzzles;
+//    }
+//    string line;
+//    while (getline(inFile, line)) {
+//        int i = 0;
+//        SudokuPuzzle puzzle(SIZE, vector<int>(SIZE, UNASSIGNED));
+//        while(i < SIZE){
+//            stringstream ss(line);
+//            for (int j = 0; j < SIZE; ++j) {
+//                ss >> puzzle[i][j];
+//            }
+//            getline(inFile, line);
+//            i++;
 //        }
-//        cout<<"\n\n";
-        puzzles.push_back(puzzle);
-    }
-    inFile.close();
-    return puzzles;
-}
-int main(){
+////        for(int i=0; i<SIZE; i++){
+////            for(int j=0; j<SIZE; j++){
+////                cout<<puzzle[i][j]<<" ";
+////            }cout<<endl;
+////        }
+////        cout<<"\n\n";
+//        puzzles.push_back(puzzle);
+//    }
+//    inFile.close();
+//    return puzzles;
+//}
+void DLX::solve(vector<vector<int>> puzzle){
 
-    string filename = "sudoku_puzzles.txt";
-    vector<SudokuPuzzle> puzzles = readSudokuPuzzlesFromFile(filename);
-    if (puzzles.empty()) {
-        cout << "No Sudoku puzzles found in the file." << endl;
-        return 1;
-    }
-    cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
+//    string filename = "sudoku_puzzles.txt";
+//    vector<SudokuPuzzle> puzzles = readSudokuPuzzlesFromFile(filename);
+//    if (puzzles.empty()) {
+//        cout << "No Sudoku puzzles found in the file." << endl;
+//        cout<<"error";
+//    }
+//    cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
     //Sudoku Hard to Brute Force
 //    int Puzzle[16][16] =		{ // 5 min board
 //            {0, 15, 0, 1, 0, 2, 10, 14, 12, 0, 0, 0, 0, 0, 0, 0},
@@ -411,16 +412,9 @@ int main(){
 //    };
 
     clock_t totalStart = clock();
-    for(int i=0; i<puzzles.size(); i++){
-        cout << i << " \n";
-        SolveSudoku(puzzles[i]);
-    }
+    SolveSudoku(puzzle);
     clock_t totalEnd = clock() - totalStart;
     cout << "Total Time Elapsed: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
 
-
-
-
-    cin.get();
-    return 0;
+    return;
 }

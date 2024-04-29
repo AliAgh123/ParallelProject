@@ -7,4 +7,7 @@ add_executable(ParallelProject main.cpp
         bits/stdc++.h
         DLX.cpp
         MPI_DLX.cpp
-        sudokuGen.cpp)
+        sudokuGen.cpp
+        DLX.h
+        DLXOpenMp.cpp
+        Sequential.cpp)
