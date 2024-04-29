@@ -57,6 +57,5 @@ int main(){
     for(int i=0; i<puzzles.size(); i++)
         d.solve(puzzles[0]);
     cout<<"done solving";
-    cin.get();
     return 0;
 }

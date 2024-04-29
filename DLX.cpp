@@ -87,7 +87,6 @@ void search(int k) {
         MapSolutionToGrid(Grid);
         PrintGrid(Grid);
         cout << "Time Elapsed: " << (float)timer2 / CLOCKS_PER_SEC << " seconds.\n\n";
-//        cin.get(); //Pause console
         timer = clock();
         isSolved = true;
         return;

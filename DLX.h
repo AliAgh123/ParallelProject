@@ -1,7 +1,3 @@
-//
-// Created by Ali Abdel Ghaffar on 29/04/2024.
-//
-
 #ifndef PARALLELPROJECT_DLX_H
 #define PARALLELPROJECT_DLX_H
 

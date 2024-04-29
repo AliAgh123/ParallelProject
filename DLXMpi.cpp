@@ -88,7 +88,6 @@ void search(int k) {
         MapSolutionToGrid(Grid);
 //        PrintGrid(Grid);
         cout << "Time Elapsed: " << (float)timer2 / CLOCKS_PER_SEC << " seconds.\n\n";
-//        cin.get(); //Pause console
         timer = clock();
         isSolved = true;
         return;
@@ -438,6 +437,5 @@ int main(){
         MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
     }
     MPI_Finalize();
-    cin.get();
     return 0;
 }
