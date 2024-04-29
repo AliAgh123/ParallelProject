@@ -3,6 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <ctime>
+#include <cstring>
+
 using namespace std;
 
 class Sudoku {
