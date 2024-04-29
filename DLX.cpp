@@ -11,8 +11,9 @@ using namespace std;
 
 #define MAX_K 1000
 
-//#define SIZE 16
-#define SIZE 9
+//#define SIZE 25
+#define SIZE 16
+//#define SIZE 9
 //#define SIZE 4
 
 const int UNASSIGNED = 0;
@@ -83,9 +84,9 @@ void search(int k) {
         timer2 = clock() - timer;
         int Grid[SIZE][SIZE] = { {0} };
         MapSolutionToGrid(Grid);
-        PrintGrid(Grid);
+//        PrintGrid(Grid);
         cout << "Time Elapsed: " << (float)timer2 / CLOCKS_PER_SEC << " seconds.\n\n";
-        cin.get(); //Pause console
+//        cin.get(); //Pause console
         timer = clock();
         isSolved = true;
         return;
@@ -344,6 +345,7 @@ void SolveSudoku(vector<vector<int>> Sudoku) {
     if (!isSolved)
         cout << "No Solution!" << endl;
     isSolved = false;
+    cout << "solved\n";
 }
 
 
@@ -408,9 +410,15 @@ int main(){
 //            {0, 14, 0, 0, 0, 13, 9, 0, 4, 12, 11, 8, 0, 0, 2, 0}
 //    };
 
-//    for(int i=0; i<puzzles.size(); i++){
-//        SolveSudoku(puzzles[i]);
-//    }
+    clock_t totalStart = clock();
+    for(int i=0; i<puzzles.size(); i++){
+        cout << i << " \n";
+        SolveSudoku(puzzles[i]);
+    }
+    clock_t totalEnd = clock() - totalStart;
+    cout << "Total Time Elapsed: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+
+
 
 
     cin.get();
