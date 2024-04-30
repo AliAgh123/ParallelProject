@@ -63,12 +63,12 @@ int main(){
     if (world_rank == 0) {
 
         clock_t totalStart = clock();
-        int j;
-        for (int i = 0; i < puzzles.size(); i++) {
-            MPI_Recv(&j, 1, MPI_INT, MPI_ANY_SOURCE, MSG_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            cout << j << " is solved \n";
-        }
-
+//        int j;
+//        for (int i = 0; i < puzzles.size(); i++) {
+//            MPI_Recv(&j, 1, MPI_INT, MPI_ANY_SOURCE, MSG_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+//            cout << j << " is solved \n";
+//        }
+        MPI_Barrier(MPI_COMM_WORLD);
         clock_t totalEnd = clock() - totalStart;
         cout<<"-------------------------------------------------\n";
         cout << "To solve all puzzles: " << (float) totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
@@ -79,7 +79,7 @@ int main(){
         int end = start + nbElements;
         for(int i=start; i < end && i < puzzles.size(); i++){
             d.solve(puzzles[i]);
-            MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
+//            MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
         }
 
 
