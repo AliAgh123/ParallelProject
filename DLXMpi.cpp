@@ -75,7 +75,7 @@ int main(){
     }
     else {
         int nbElements = (puzzles.size()/world_size)+1; // 11/4 = 2;
-        int start = world_rank * nbElements; /
+        int start = world_rank * nbElements; 
         int end = start + nbElements;
         if (end > puzzles.size()){
             end = puzzles.size();
