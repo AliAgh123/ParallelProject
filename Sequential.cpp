@@ -9,8 +9,8 @@
     using namespace std;
 
     //#define SIZE 25
-//    #define SIZE 16
-    int SIZE ;
+    #define SIZE 16
+//    int SIZE = 9;
     //#define SIZE 4
 
     const int UNASSIGNED = 0;

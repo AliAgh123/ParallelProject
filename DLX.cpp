@@ -13,8 +13,8 @@ using namespace std;
 #define MAX_K 1000
 
 //#define SIZE 25
-//#define SIZE 16
-#define SIZE 9
+#define SIZE 16
+//#define SIZE 9
 //#define SIZE 4
 
 const int UNASSIGNED = 0;
