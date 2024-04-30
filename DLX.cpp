@@ -54,7 +54,7 @@ clock_t timer, timer2;
 //===============================================================================================================//
 //---------------------------------------------DLX Functions-----------------------------------------------------//
 //===============================================================================================================//
-
+__global__
 void coverColumn(Node* col) {
     col->left->right = col->right;
     col->right->left = col->left;
@@ -66,7 +66,7 @@ void coverColumn(Node* col) {
         }
     }
 }
-
+__global__
 void uncoverColumn(Node* col) {
     for (Node* node = col->up; node != col; node = node->up) {
         for (Node* temp = node->left; temp != node; temp = temp->left) {
@@ -78,7 +78,7 @@ void uncoverColumn(Node* col) {
     col->left->right = col;
     col->right->left = col;
 }
-
+__global__
 void search(int k) {
 
     if (HeadNode->right == HeadNode) {
@@ -124,6 +124,7 @@ void search(int k) {
 //===============================================================================================================//
 
 //--------------------------BUILD THE INITIAL MATRIX CONTAINING ALL POSSIBILITIES--------------------------------//
+__global__
 void BuildSparseMatrix(bool matrix[ROW_NB][COL_NB]) {
 
     //Constraint 1: There can only be one value in any given cell --> row-column  relation (intersection between the rows and columns
@@ -183,6 +184,7 @@ void BuildSparseMatrix(bool matrix[ROW_NB][COL_NB]) {
 }
 
 //-------------------BUILD A TOROIDAL DOUBLY LINKED LIST OUT OF THE SPARSE MATRIX-------------------------//
+__global__
 void BuildLinkedList(bool matrix[ROW_NB][COL_NB]) {
 
     Node* header = new Node;
@@ -257,6 +259,7 @@ void BuildLinkedList(bool matrix[ROW_NB][COL_NB]) {
 }
 
 //-------------------COVERS VALUES THAT ARE ALREADY PRESENT IN THE GRID-------------------------//
+__global__
 void TransformListToCurrentGrid(vector<vector<int>> Puzzle) {
     int index = 0;
     for(int i = 0 ; i<SIZE; i++ )
@@ -283,7 +286,7 @@ void TransformListToCurrentGrid(vector<vector<int>> Puzzle) {
 //===============================================================================================================//
 //----------------------------------------------- Print Functions -----------------------------------------------//
 //===============================================================================================================//
-
+__global__
 void MapSolutionToGrid(int Sudoku[][SIZE]) {
 
     for (int i = 0; solution[i] != NULL; i++) {
@@ -295,6 +298,7 @@ void MapSolutionToGrid(int Sudoku[][SIZE]) {
 }
 
 //---------------------------------PRINTS A SUDOKU GRID OF ANY SIZE---------------------------------------------//
+__global__
 void PrintGrid(int Sudoku[][SIZE]){
     string ext_border = "+", int_border = "|";
     int counter = 1;
@@ -335,7 +339,7 @@ void PrintGrid(int Sudoku[][SIZE]){
 }
 
 //--------------------------------------------------------------------------------//
-
+__global__
 void SolveSudoku(vector<vector<int>> Sudoku) {
     timer = clock();
     BuildSparseMatrix(matrix);
@@ -348,7 +352,7 @@ void SolveSudoku(vector<vector<int>> Sudoku) {
     cout << "solved\n";
 }
 
-
+__global__
 void DLX::solve(vector<vector<int>> puzzle){
 
     clock_t totalStart = clock();
