@@ -10,7 +10,8 @@
 using namespace std;
 
 //#define SIZE 25
-int SIZE;
+//int SIZE;
+#define SIZE 16
 //#define SIZE 9
 //#define SIZE 4
 
