@@ -74,9 +74,17 @@ int main(){
         cout << "To solve all puzzles: " << (float) totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
     }
     else {
-        int i = world_rank - 1;
-        d.solve(puzzles[i]);
-        MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
+        int nbElements = (puzzles.size()+1)/world_size;
+        int start = world_rank * nbElements;
+        int end = start + nbElements;
+        if (end > puzzles.size()){
+            end = puzzles.size();
+        }
+        for(int i=start; i < end; i++){
+            d.solve(puzzles[i]);
+            MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
+        }
+
     }
     MPI_Finalize();
 
