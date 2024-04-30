@@ -74,8 +74,8 @@ int main(){
         cout << "To solve all puzzles: " << (float) totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
     }
     else {
-        int nbElements = (puzzles.size()+1)/world_size;
-        int start = world_rank * nbElements;
+        int nbElements = (puzzles.size()/world_size)+1; // 11/4 = 2;
+        int start = world_rank * nbElements; /
         int end = start + nbElements;
         if (end > puzzles.size()){
             end = puzzles.size();
