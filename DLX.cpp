@@ -349,7 +349,7 @@ void SolveSudoku(vector<vector<int>> Sudoku) {
 }
 
 
-__global__
+__device__
 void DLX::solve(vector<vector<int>> puzzle){
 
     clock_t totalStart = clock();
