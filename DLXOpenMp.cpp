@@ -5,13 +5,12 @@
 #include <sstream>
 #include "DLX.h"
 
-
 using namespace std;
 
-//#define SIZE 25
-//#define SIZE 16
+// #define SIZE 25
+// #define SIZE 16
 int SIZE;
-//#define SIZE 4
+// #define SIZE 4
 
 const int UNASSIGNED = 0;
 
@@ -19,20 +18,25 @@ const int UNASSIGNED = 0;
 typedef vector<vector<int>> SudokuPuzzle;
 
 // Function to read Sudoku puzzles from file
-vector<SudokuPuzzle> readSudokuPuzzlesFromFile(const string& filename) {
+vector<SudokuPuzzle> readSudokuPuzzlesFromFile(const string &filename)
+{
     ifstream inFile(filename);
     vector<SudokuPuzzle> puzzles;
-    if (!inFile.is_open()) {
+    if (!inFile.is_open())
+    {
         cerr << "Error: Unable to open file." << endl;
         return puzzles;
     }
     string line;
-    while (getline(inFile, line)) {
+    while (getline(inFile, line))
+    {
         int i = 0;
         SudokuPuzzle puzzle(SIZE, vector<int>(SIZE, UNASSIGNED));
-        while(i < SIZE){
+        while (i < SIZE)
+        {
             stringstream ss(line);
-            for (int j = 0; j < SIZE; ++j) {
+            for (int j = 0; j < SIZE; ++j)
+            {
                 ss >> puzzle[i][j];
             }
             getline(inFile, line);
@@ -44,20 +48,27 @@ vector<SudokuPuzzle> readSudokuPuzzlesFromFile(const string& filename) {
     return puzzles;
 }
 
-int main(){
+int main()
+{
 
     string filename = "sudoku_puzzles.txt";
     vector<SudokuPuzzle> puzzles = readSudokuPuzzlesFromFile(filename);
-    if (puzzles.empty()) {
+    if (puzzles.empty())
+    {
         cout << "No Sudoku puzzles found in the file." << endl;
         return 1;
     }
     cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
-    cout<< "Enter the size of the sudoku: \n";
-    cin>>SIZE;
+    cout << "Enter the size of the sudoku: \n";
+    cin >> SIZE;
     DLX d;
-    for(int i=0; i<puzzles.size(); i++)
-        d.solve(puzzles[0]);
-    cout<<"done solving";
+    int i;
+    clock_t totalStart = clock();
+#pragma omp for private(i)
+    for (i = 0; i < puzzles.size(); i++)
+        d.solve(puzzles[i]);
+    clock_t totalEnd = clock() - totalStart;
+    cout << "To solve all puzzles: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+    //    cin.get();
     return 0;
 }
