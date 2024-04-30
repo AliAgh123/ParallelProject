@@ -9,8 +9,8 @@
     using namespace std;
 
     //#define SIZE 25
-    #define SIZE 16
-    //#define SIZE 9
+//    #define SIZE 16
+    int SIZE ;
     //#define SIZE 4
 
     const int UNASSIGNED = 0;
@@ -53,6 +53,9 @@
             return 1;
         }
         cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
+
+        cout<< "Enter the size of the sudoku: \n";
+        cin>>SIZE;
         DLX d;
         clock_t totalStart = clock();
         for(int i=0; i<puzzles.size(); i++)
@@ -60,6 +63,5 @@
         cout<<"done solving\n";
         clock_t totalEnd = clock() - totalStart;
         cout << "To solve all puzzles: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
-    //    cin.get();
         return 0;
     }
