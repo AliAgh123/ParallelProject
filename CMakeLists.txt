@@ -10,4 +10,5 @@ add_executable(ParallelProject main.cpp
         sudokuGen.cpp
         DLX.h
         DLXOpenMp.cpp
-        Sequential.cpp)
+        Sequential.cpp
+        DLXMpi.cpp)

@@ -75,15 +75,13 @@ int main(){
     }
     else {
         int nbElements = (puzzles.size()/world_size)+1; // 11/4 = 2;
-        int start = world_rank * nbElements; 
+        int start = world_rank * nbElements;
         int end = start + nbElements;
-        if (end > puzzles.size()){
-            end = puzzles.size();
-        }
-        for(int i=start; i < end; i++){
+        for(int i=start; i < end && i < puzzles.size(); i++){
             d.solve(puzzles[i]);
             MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
         }
+
 
     }
     MPI_Finalize();
