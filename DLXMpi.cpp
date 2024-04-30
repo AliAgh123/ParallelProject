@@ -10,7 +10,6 @@
 using namespace std;
 
 //#define SIZE 25
-//int SIZE;
 #define SIZE 16
 //#define SIZE 9
 //#define SIZE 4
@@ -50,40 +49,37 @@ int main(){
     int MSG_TAG = 0;
     string filename = "sudoku_puzzles.txt";
     DLX d;
+    MPI_Init(NULL, NULL);
+    int world_size, world_rank;
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
     vector<SudokuPuzzle> puzzles = readSudokuPuzzlesFromFile(filename);
     if (puzzles.empty()) {
         cout << "No Sudoku puzzles found in the file." << endl;
         return 1;
     }
     cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
-    MPI_Init(NULL, NULL);
-    int world_size, world_rank;
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
     if (world_rank == 0) {
 
+//      int MPI_Bcast(puzzles, puzzles.size() , MPI_INT, 0 , MPI_COMM_WORLD);
         clock_t totalStart = clock();
-//        int j;
-//        for (int i = 0; i < puzzles.size(); i++) {
-//            MPI_Recv(&j, 1, MPI_INT, MPI_ANY_SOURCE, MSG_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-//            cout << j << " is solved \n";
-//        }
-        MPI_Barrier(MPI_COMM_WORLD);
-        clock_t totalEnd = clock() - totalStart;
-        cout<<"-------------------------------------------------\n";
-        cout << "To solve all puzzles: " << (float) totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
-    }
-    else {
-        int nbElements = (puzzles.size()/world_size)+1; // 11/4 = 2;
-        int start = world_rank * nbElements;
-        int end = start + nbElements;
-        for(int i=start; i < end && i < puzzles.size(); i++){
-            d.solve(puzzles[i]);
-//            MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
+        int j ;
+        for (int i = 0; i < puzzles.size(); i++) {
+            MPI_Recv(&j, 1, MPI_INT, MPI_ANY_SOURCE, MSG_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            cout << j << " is solved \n";
         }
 
-
+        clock_t totalEnd = clock() - totalStart;
+        cout << "To solve all puzzles: " << (float) totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
     }
+    else {
+//        vector<SudokuPuzzle> puzzles;
+//        int MPI_Bcast(puzzles, puzzles.size(), MPI_INT, 0, MPI_COMM_WORLD);
+        int i = world_rank - 1;
+        d.solve(puzzles[i]);
+        MPI_Send(&i, 1, MPI_INT, 0, MSG_TAG, MPI_COMM_WORLD);
+    }
+//    cin.get();
     MPI_Finalize();
 
     return 0;
