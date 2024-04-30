@@ -9,8 +9,8 @@
 using namespace std;
 
 //#define SIZE 25
-//#define SIZE 16
-#define SIZE 9
+#define SIZE 16
+//#define SIZE 9
 //#define SIZE 4
 
 const int UNASSIGNED = 0;
@@ -54,8 +54,13 @@ int main(){
     }
     cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
     DLX d;
-    for(int i=0; i<puzzles.size(); i++)
-        d.solve(puzzles[0]);
-    cout<<"done solving";
+    int i;
+    clock_t totalStart = clock();
+    #pragma omp for private(i)
+    for(i=0; i<puzzles.size(); i++)
+        d.solve(puzzles[i]);
+    clock_t totalEnd = clock() - totalStart;
+    cout << "To solve all puzzles: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+//    cin.get();
     return 0;
 }
