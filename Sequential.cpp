@@ -60,6 +60,6 @@
             d.solve(puzzles[i]);
         cout<<"done solving\n";
         clock_t totalEnd = clock() - totalStart;
-        cout << "To solve all puzzles: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+        cout << "To solve all puzzles: " << (float)totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
         return 0;
     }

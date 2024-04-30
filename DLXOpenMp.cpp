@@ -66,7 +66,8 @@ int main()
     for (i = 0; i < puzzles.size(); i++)
         d.solve(puzzles[i]);
     clock_t totalEnd = clock() - totalStart;
-    cout << "To solve all puzzles: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+    cout<<"-------------------------------------------------\n";
+    cout << "To solve all puzzles: " << (float)totalEnd * 1000.0/ CLOCKS_PER_SEC << " ms.\n\n";
     //    cin.get();
     return 0;
 }

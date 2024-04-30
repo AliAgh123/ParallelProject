@@ -86,7 +86,7 @@ void search(int k) {
         int Grid[SIZE][SIZE] = { {0} };
         MapSolutionToGrid(Grid);
         PrintGrid(Grid);
-        cout << "Time Elapsed: " << (float)timer2 / CLOCKS_PER_SEC << " seconds.\n\n";
+        cout << " --> Time Elapsed: " << (float)timer2 * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
         timer = clock();
         isSolved = true;
         return;
@@ -355,7 +355,7 @@ void DLX::solve(vector<vector<int>> puzzle){
     clock_t totalStart = clock();
     SolveSudoku(puzzle);
     clock_t totalEnd = clock() - totalStart;
-    cout << "Total Time Elapsed: " << (float)totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+    cout << "Total Time Elapsed: " << (float)totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
 
     return;
 }

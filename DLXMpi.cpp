@@ -70,7 +70,8 @@ int main(){
         }
 
         clock_t totalEnd = clock() - totalStart;
-        cout << "To solve all puzzles: " << (float) totalEnd / CLOCKS_PER_SEC << " seconds.\n\n";
+        cout<<"-------------------------------------------------\n";
+        cout << "To solve all puzzles: " << (float) totalEnd * 1000.0 / CLOCKS_PER_SEC << " ms.\n\n";
     }
     else {
         int i = world_rank - 1;
