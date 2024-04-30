@@ -54,8 +54,6 @@
         }
         cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
 
-        cout<< "Enter the size of the sudoku: \n";
-        cin>>SIZE;
         DLX d;
         clock_t totalStart = clock();
         for(int i=0; i<puzzles.size(); i++)

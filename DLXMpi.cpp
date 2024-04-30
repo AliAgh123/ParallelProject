@@ -56,8 +56,6 @@ int main(){
         return 1;
     }
     cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
-    cout<< "Enter the size of the sudoku: \n";
-    cin>>SIZE;
     MPI_Init(NULL, NULL);
     int world_size, world_rank;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
