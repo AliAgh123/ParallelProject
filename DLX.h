@@ -7,6 +7,6 @@ using namespace std;
 
 class DLX{
 public:
-    void solve(vector<vector<int>> puzzle);
+    static void solve(vector<vector<int>> puzzle);
 };
 #endif //PARALLELPROJECT_DLX_H
