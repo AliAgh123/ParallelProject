@@ -55,7 +55,7 @@ int main(){
     cout << "Sudoku puzzles read from file: " << puzzles.size() << endl;
     DLX d;
     for(int i=0; i<puzzles.size(); i++)
-        d.solve(puzzles[0]);
+        d.solve(puzzles[i]);
     cout<<"done solving";
     return 0;
 }
