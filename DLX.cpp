@@ -44,10 +44,10 @@ struct Node Head;
 struct Node* HeadNode = &Head;
 struct Node* solution[MAX_K];
 struct Node* orig_values[MAX_K];
-bool matrix[ROW_NB][COL_NB] = { { 0 } };
-bool isSolved = false;
-void MapSolutionToGrid(int Sudoku[][SIZE]);
-void PrintGrid(int Sudoku[][SIZE]);
+__device__ bool matrix[ROW_NB][COL_NB] = { { 0 } };
+__device__ bool isSolved = false;
+__device__ void MapSolutionToGrid(int Sudoku[][SIZE]);
+__device__ void PrintGrid(int Sudoku[][SIZE]);
 
 clock_t timer, timer2;
 
@@ -55,7 +55,7 @@ clock_t timer, timer2;
 //---------------------------------------------DLX Functions-----------------------------------------------------//
 //===============================================================================================================//
 
-void coverColumn(Node* col) {
+__device__ void coverColumn(Node* col) {
     col->left->right = col->right;
     col->right->left = col->left;
     for (Node* node = col->down; node != col; node = node->down) {
@@ -67,7 +67,7 @@ void coverColumn(Node* col) {
     }
 }
 
-void uncoverColumn(Node* col) {
+__device__ void uncoverColumn(Node* col) {
     for (Node* node = col->up; node != col; node = node->up) {
         for (Node* temp = node->left; temp != node; temp = temp->left) {
             temp->head->size++;
@@ -79,7 +79,7 @@ void uncoverColumn(Node* col) {
     col->right->left = col;
 }
 
-void search(int k) {
+__device__ void search(int k) {
 
     if (HeadNode->right == HeadNode) {
         timer2 = clock() - timer;
@@ -125,7 +125,7 @@ void search(int k) {
 
 //--------------------------BUILD THE INITIAL MATRIX CONTAINING ALL POSSIBILITIES--------------------------------//
 
-void BuildSparseMatrix(bool matrix[ROW_NB][COL_NB]) {
+__device__ void BuildSparseMatrix(bool matrix[ROW_NB][COL_NB]) {
 
     //Constraint 1: There can only be one value in any given cell --> row-column  relation (intersection between the rows and columns
     int j = 0, counter = 0;
@@ -185,7 +185,7 @@ void BuildSparseMatrix(bool matrix[ROW_NB][COL_NB]) {
 
 //-------------------BUILD A TOROIDAL DOUBLY LINKED LIST OUT OF THE SPARSE MATRIX-------------------------//
 
-void BuildLinkedList(bool matrix[ROW_NB][COL_NB]) {
+__device__ void BuildLinkedList(bool matrix[ROW_NB][COL_NB]) {
 
     Node* header = new Node;
     header->left = header;
@@ -260,7 +260,7 @@ void BuildLinkedList(bool matrix[ROW_NB][COL_NB]) {
 
 //-------------------COVERS VALUES THAT ARE ALREADY PRESENT IN THE GRID-------------------------//
 
-void TransformListToCurrentGrid(vector<vector<int>> Puzzle) {
+__device__ void TransformListToCurrentGrid(vector<vector<int>> Puzzle) {
     int index = 0;
     for(int i = 0 ; i<SIZE; i++ )
         for(int j = 0 ; j<SIZE; j++)
@@ -287,7 +287,7 @@ void TransformListToCurrentGrid(vector<vector<int>> Puzzle) {
 //----------------------------------------------- Print Functions -----------------------------------------------//
 //===============================================================================================================//
 
-void MapSolutionToGrid(int Sudoku[][SIZE]) {
+__device__ void MapSolutionToGrid(int Sudoku[][SIZE]) {
 
     for (int i = 0; solution[i] != NULL; i++) {
         Sudoku[solution[i]->rowID[1]-1][solution[i]->rowID[2]-1] = solution[i]->rowID[0];
@@ -299,7 +299,7 @@ void MapSolutionToGrid(int Sudoku[][SIZE]) {
 
 //---------------------------------PRINTS A SUDOKU GRID OF ANY SIZE---------------------------------------------//
 
-void PrintGrid(int Sudoku[][SIZE]){
+__device__ void PrintGrid(int Sudoku[][SIZE]){
     string ext_border = "+", int_border = "|";
     int counter = 1;
     int additional = 0;
@@ -340,7 +340,7 @@ void PrintGrid(int Sudoku[][SIZE]){
 
 //--------------------------------------------------------------------------------//
 
-void SolveSudoku(vector<vector<int>> Sudoku) {
+__device__ void SolveSudoku(vector<vector<int>> Sudoku) {
     timer = clock();
     BuildSparseMatrix(matrix);
     BuildLinkedList(matrix);
