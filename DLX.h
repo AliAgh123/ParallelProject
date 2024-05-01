@@ -7,6 +7,6 @@ using namespace std;
 
 class DLX{
 public:
-    __global__ static void solve(vector<vector<int>> puzzle);
+    __device__ static void solve(vector<vector<int>> puzzle);
 };
 #endif //PARALLELPROJECT_DLX_H
