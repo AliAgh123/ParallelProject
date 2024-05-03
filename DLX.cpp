@@ -17,7 +17,7 @@ using namespace std;
 //#define SIZE 9
 //#define SIZE 4
 
-const int UNASSIGNED = 0;
+__device__ const int UNASSIGNED = 0;
 
 // Define the type for a single Sudoku puzzle (2D array)
 typedef vector<vector<int>> SudokuPuzzle;
@@ -35,21 +35,21 @@ struct Node {
     //ID Format: (Candidate, Row, Column)
 };
 
-const int SIZE_SQUARED = SIZE*SIZE;
-const int SIZE_SQRT = sqrt((double)SIZE);
-const int ROW_NB = SIZE*SIZE*SIZE;
-const int COL_NB = 4 * SIZE*SIZE;
+__device__ const int SIZE_SQUARED = SIZE*SIZE;
+__device__ const int SIZE_SQRT = sqrt((double)SIZE);
+__device__ const int ROW_NB = SIZE*SIZE*SIZE;
+__device__ const int COL_NB = 4 * SIZE*SIZE;
 
-struct Node Head;
-struct Node* HeadNode = &Head;
-struct Node* solution[MAX_K];
-struct Node* orig_values[MAX_K];
+__device__ struct Node Head;
+__device__ struct Node* HeadNode = &Head;
+__device__ struct Node* solution[MAX_K];
+__device__ struct Node* orig_values[MAX_K];
 __device__ bool matrix[ROW_NB][COL_NB] = { { 0 } };
 __device__ bool isSolved = false;
 __device__ void MapSolutionToGrid(int Sudoku[][SIZE]);
 __device__ void PrintGrid(int Sudoku[][SIZE]);
 
-clock_t timer, timer2;
+__device__ clock_t timer, timer2;
 
 //===============================================================================================================//
 //---------------------------------------------DLX Functions-----------------------------------------------------//
