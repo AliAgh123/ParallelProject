@@ -26,10 +26,10 @@ public:
         }
     }
 
-    void fillValues(int r) {
+    void fillValues() {
         fillDiagonal();
         fillRemaining(0, SRN);
-        removeKDigits(r);
+        removeKDigits();
     }
 
     void fillDiagonal() {
@@ -126,8 +126,8 @@ public:
         return false;
     }
 
-    void removeKDigits(int r) {
-        int count = r ;
+    void removeKDigits() {
+        int count = K;
         while (count != 0) {
             int cellId = randomGenerator(N * N) - 1;
             int i = (cellId / N);
@@ -150,7 +150,7 @@ public:
     }
 };
 
-void generateSudoku(int n, int k,int r, const string& filename) {
+void generateSudoku(int n, int k, const string& filename) {
     srand(time(0));
     ofstream outFile(filename);
     if (!outFile.is_open()) {
@@ -159,7 +159,7 @@ void generateSudoku(int n, int k,int r, const string& filename) {
     }
     for (int i = 0; i < k; i++) {
         Sudoku sudoku(n, 20); // Assuming K = 20
-        sudoku.fillValues(r);
+        sudoku.fillValues();
         sudoku.printSudoku(outFile);
     }
     outFile.close();
@@ -167,14 +167,12 @@ void generateSudoku(int n, int k,int r, const string& filename) {
 }
 
 int main() {
-    int n, k , r;
+    int n, k;
     cout << "Enter the size of each puzzle (n): ";
     cin >> n;
     cout << "Enter the number of Sudoku puzzles (k): ";
     cin >> k;
-    cout << "Enter the number of elements you want to remove (r)";
-    cin >> r;
     string filename = "sudoku_puzzles.txt";
-    generateSudoku(n, k,r, filename);
+    generateSudoku(n, k, filename);
     return 0;
 }
